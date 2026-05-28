@@ -16,17 +16,22 @@ connectDB();
 
 // ─── Middleware ────────────────────────────────────────────────
 app.use(cors({
-  origin: [
-  'http://localhost:4200',
-  'http://localhost:4201',
-  'https://mploychek-app-seven.vercel.app',
-  'https://mploycheck-7cd270oif-siddx6s-projects.vercel.app',
-],
+  origin: function (origin, callback) {
+    const allowed = [
+      'http://localhost:4200',
+      'http://localhost:4201',
+      'https://mploychek-app-seven.vercel.app',
+    ];
+    if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
