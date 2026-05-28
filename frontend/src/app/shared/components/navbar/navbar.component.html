@@ -1,0 +1,47 @@
+<nav class="navbar">
+  <div class="navbar__brand" (click)="navigateDashboard()">
+    <div class="navbar__logo">
+      <span class="logo-m">M</span>
+    </div>
+    <div class="navbar__title">
+      <span class="title-main">MPloy</span><span class="title-accent">Chek</span>
+      <span class="title-sub">Background Verification</span>
+    </div>
+  </div>
+
+  <div class="navbar__actions">
+    <button
+      *ngIf="isAdmin"
+      mat-button
+      class="nav-btn"
+      routerLink="/dashboard"
+      routerLinkActive="active">
+      <mat-icon>dashboard</mat-icon>
+      Dashboard
+    </button>
+
+    <button
+      *ngIf="isAdmin"
+      mat-button
+      class="nav-btn admin-btn"
+      routerLink="/admin"
+      routerLinkActive="active">
+      <mat-icon>admin_panel_settings</mat-icon>
+      Admin Panel
+    </button>
+
+    <div class="navbar__user" *ngIf="currentUser">
+      <div class="user-badge">
+        <div class="user-avatar">{{ getInitials(currentUser.name) }}</div>
+        <div class="user-info">
+          <span class="user-name">{{ currentUser.name }}</span>
+          <span class="user-role" [class.admin]="isAdmin">{{ currentUser.role }}</span>
+        </div>
+      </div>
+
+      <button mat-icon-button class="logout-btn" (click)="logout()" matTooltip="Logout">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </div>
+  </div>
+</nav>

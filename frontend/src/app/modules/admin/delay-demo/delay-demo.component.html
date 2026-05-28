@@ -1,0 +1,119 @@
+<div class="delay-demo">
+  <div class="page-header">
+    <h2>Async Processing Demo</h2>
+    <p>Demonstrates non-blocking UI with API delay simulation using RxJS Observables</p>
+  </div>
+
+  <!-- Controls card -->
+  <div class="card controls-card">
+    <h3><mat-icon>timer</mat-icon> Configure Delay</h3>
+    <p class="desc">
+      The backend accepts a <code>?delay=ms</code> query param. The Angular frontend
+      uses RxJS <code>Observable</code> subscription — the UI stays fully interactive
+      while waiting for the response.
+    </p>
+
+    <div class="delay-selector">
+      <button
+        *ngFor="let d of delayOptions"
+        mat-stroked-button
+        class="delay-btn"
+        [class.selected]="selectedDelay === d"
+        (click)="selectedDelay = d">
+        {{ d === 0 ? 'No Delay' : (d / 1000) + 's' }}
+      </button>
+    </div>
+
+    <div class="actions-row">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="fetchWithDelay()"
+        [disabled]="isLoading"
+        class="fetch-btn">
+        <mat-icon>{{ isLoading ? 'hourglass_top' : 'play_arrow' }}</mat-icon>
+        {{ isLoading ? 'Waiting for response...' : 'Fetch Records with Delay' }}
+      </button>
+      <button mat-stroked-button (click)="clearLogs()" [disabled]="isLoading">
+        <mat-icon>clear_all</mat-icon> Clear Logs
+      </button>
+    </div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-card card" *ngIf="isLoading">
+    <div class="progress-header">
+      <span><mat-icon>hourglass_top</mat-icon> Request in progress...</span>
+      <span class="elapsed">{{ elapsed }}ms elapsed</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" [style.width]="getProgressWidth()"></div>
+    </div>
+    <p class="progress-hint">
+      ✅ UI remains fully interactive — type, click, scroll — Angular is non-blocking
+    </p>
+  </div>
+
+  <!-- Request Log -->
+  <div class="card log-card" *ngIf="logs.length > 0">
+    <h3><mat-icon>receipt_long</mat-icon> Request Log</h3>
+    <div class="log-list">
+      <div class="log-item" *ngFor="let log of logs" [ngClass]="log.status">
+        <div class="log-icon">
+          <mat-icon *ngIf="log.status === 'pending'">hourglass_top</mat-icon>
+          <mat-icon *ngIf="log.status === 'success'">check_circle</mat-icon>
+          <mat-icon *ngIf="log.status === 'error'">error</mat-icon>
+        </div>
+        <div class="log-body">
+          <div class="log-title">
+            Request #{{ log.id }}
+            <span class="log-delay">delay={{ log.delay }}ms</span>
+          </div>
+          <div class="log-meta" *ngIf="log.status !== 'pending'">
+            Resolved in <strong>{{ log.duration }}ms</strong>
+            <span *ngIf="log.records !== undefined"> · {{ log.records }} records</span>
+          </div>
+          <div class="log-meta" *ngIf="log.status === 'pending'">Awaiting response...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results table -->
+  <div class="card results-card" *ngIf="records.length > 0">
+    <h3><mat-icon>table_view</mat-icon> Response Data ({{ records.length }} records)</h3>
+    <table mat-table [dataSource]="records" class="result-table">
+      <ng-container matColumnDef="recordId">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let r"><code>{{ r.recordId }}</code></td>
+      </ng-container>
+      <ng-container matColumnDef="candidateName">
+        <th mat-header-cell *matHeaderCellDef>Candidate</th>
+        <td mat-cell *matCellDef="let r">{{ r.candidateName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="checkType">
+        <th mat-header-cell *matHeaderCellDef>Check Type</th>
+        <td mat-cell *matCellDef="let r">{{ r.checkType }}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let r">
+          <span class="status-badge" [ngClass]="r.status.toLowerCase().replace(' ','-')">{{ r.status }}</span>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['recordId','candidateName','checkType','status']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['recordId','candidateName','checkType','status'];"></tr>
+    </table>
+  </div>
+
+  <!-- Tech explanation -->
+  <div class="card tech-grid">
+    <div class="tech-item" *ngFor="let t of techPoints">
+      <mat-icon [style.color]="t.color">{{ t.icon }}</mat-icon>
+      <div>
+        <strong>{{ t.title }}</strong>
+        <p>{{ t.desc }}</p>
+      </div>
+    </div>
+  </div>
+</div>

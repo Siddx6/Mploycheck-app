@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background-color: #F4F6FA;
+  color: #1A202C;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  border: 1px solid #E2E8F0;
+  padding: 24px;
+}
+
+.status-badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 12px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.status-badge.completed   { background: rgba(46,204,113,0.15); color: #27ae60; }
+.status-badge.in-progress { background: rgba(52,152,219,0.15); color: #2980b9; }
+.status-badge.pending     { background: rgba(243,156,18,0.15); color: #e67e22; }
+.status-badge.failed      { background: rgba(231,76,60,0.15);  color: #c0392b; }
+.status-badge.on-hold     { background: rgba(155,89,182,0.15); color: #8e44ad; }
+
+.priority-badge {
+  display: inline-flex; align-items: center;
+  padding: 2px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+}
+.priority-badge.low      { background: rgba(46,204,113,0.1);  color: #2ecc71; }
+.priority-badge.medium   { background: rgba(243,156,18,0.1);  color: #f39c12; }
+.priority-badge.high     { background: rgba(231,76,60,0.1);   color: #e74c3c; }
+.priority-badge.critical { background: rgba(231,76,60,0.2);   color: #c0392b; border: 1px solid #e74c3c; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #F4F6FA; }
+::-webkit-scrollbar-thumb { background: #E2E8F0; border-radius: 3px; }

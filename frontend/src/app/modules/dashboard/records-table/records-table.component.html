@@ -1,0 +1,155 @@
+<div class="records-section card">
+  <div class="records-section__header">
+    <div>
+      <h3>Background Check Records</h3>
+      <p class="subtitle">
+        <mat-icon>info_outline</mat-icon>
+        Access Level:
+        <strong [class.admin-text]="isAdmin">{{ accessLevel || (isAdmin ? 'Admin' : 'General User') }}</strong>
+        — {{ isAdmin ? 'Showing all records with full details' : 'Showing your records only' }}
+      </p>
+    </div>
+
+    <div class="header-actions">
+      <!-- Delay demo (admin only) -->
+      <mat-form-field appearance="outline" class="delay-field" *ngIf="isAdmin">
+        <mat-label>Simulate Delay (ms)</mat-label>
+        <mat-select [(ngModel)]="delayMs">
+          <mat-option [value]="0">No Delay</mat-option>
+          <mat-option [value]="1000">1 second</mat-option>
+          <mat-option [value]="2000">2 seconds</mat-option>
+          <mat-option [value]="3000">3 seconds</mat-option>
+          <mat-option [value]="5000">5 seconds</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" (click)="loadRecords(delayMs)" [disabled]="isLoading">
+        <mat-icon>refresh</mat-icon>
+        {{ isLoading ? 'Loading...' : 'Refresh' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading skeleton -->
+  <div class="skeleton-wrap" *ngIf="isLoading">
+    <div class="skeleton-row" *ngFor="let i of [1,2,3,4]">
+      <div class="skel skel--sm"></div>
+      <div class="skel skel--md"></div>
+      <div class="skel skel--lg"></div>
+      <div class="skel skel--sm"></div>
+      <div class="skel skel--sm"></div>
+    </div>
+    <p class="loading-hint" *ngIf="delayMs > 0">
+      <mat-icon>hourglass_top</mat-icon>
+      Simulating {{ delayMs / 1000 }}s API delay — demonstrating async handling...
+    </p>
+  </div>
+
+  <!-- Error state -->
+  <div class="empty-state" *ngIf="error && !isLoading">
+    <mat-icon class="error-icon">error_outline</mat-icon>
+    <p>{{ error }}</p>
+    <button mat-stroked-button (click)="loadRecords()">Try Again</button>
+  </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" *ngIf="!isLoading && !error && records.length === 0">
+    <mat-icon>folder_open</mat-icon>
+    <p>No records found for your account.</p>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap" *ngIf="!isLoading && !error && records.length > 0">
+    <table mat-table [dataSource]="records" class="records-table">
+
+      <!-- Record ID -->
+      <ng-container matColumnDef="recordId">
+        <th mat-header-cell *matHeaderCellDef>Record ID</th>
+        <td mat-cell *matCellDef="let r">
+          <span class="record-id">{{ r.recordId }}</span>
+        </td>
+      </ng-container>
+
+      <!-- Candidate Name -->
+      <ng-container matColumnDef="candidateName">
+        <th mat-header-cell *matHeaderCellDef>Candidate</th>
+        <td mat-cell *matCellDef="let r">
+          <div class="candidate-cell">
+            <div class="mini-avatar">{{ r.candidateName[0] }}</div>
+            {{ r.candidateName }}
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Check Type -->
+      <ng-container matColumnDef="checkType">
+        <th mat-header-cell *matHeaderCellDef>Check Type</th>
+        <td mat-cell *matCellDef="let r">{{ r.checkType }}</td>
+      </ng-container>
+
+      <!-- Status -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let r">
+          <span class="status-badge" [ngClass]="getStatusClass(r.status)">
+            {{ r.status }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Priority -->
+      <ng-container matColumnDef="priority">
+        <th mat-header-cell *matHeaderCellDef>Priority</th>
+        <td mat-cell *matCellDef="let r">
+          <span class="priority-badge" [ngClass]="getPriorityClass(r.priority)">
+            {{ r.priority }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Created At -->
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>Created</th>
+        <td mat-cell *matCellDef="let r">{{ r.createdAt | date:'dd MMM yyyy' }}</td>
+      </ng-container>
+
+      <!-- ADMIN ONLY: Assigned To -->
+      <ng-container matColumnDef="assignedTo">
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="admin-col"><mat-icon>lock</mat-icon> Assigned To</span>
+        </th>
+        <td mat-cell *matCellDef="let r">{{ r.assignedTo || '—' }}</td>
+      </ng-container>
+
+      <!-- ADMIN ONLY: Internal Notes -->
+      <ng-container matColumnDef="internalNotes">
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="admin-col"><mat-icon>lock</mat-icon> Internal Notes</span>
+        </th>
+        <td mat-cell *matCellDef="let r" class="notes-cell">{{ r.internalNotes || '—' }}</td>
+      </ng-container>
+
+      <!-- ADMIN ONLY: Completed At -->
+      <ng-container matColumnDef="completedAt">
+        <th mat-header-cell *matHeaderCellDef>
+          <span class="admin-col"><mat-icon>lock</mat-icon> Completed</span>
+        </th>
+        <td mat-cell *matCellDef="let r">
+          {{ r.completedAt ? (r.completedAt | date:'dd MMM yyyy') : '—' }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+    </table>
+  </div>
+
+  <!-- Summary footer -->
+  <div class="table-footer" *ngIf="records.length > 0">
+    <span>{{ records.length }} record(s) found</span>
+    <span *ngIf="isAdmin" class="admin-note">
+      <mat-icon>admin_panel_settings</mat-icon>
+      Admin columns (lock icon) are hidden from General Users
+    </span>
+  </div>
+</div>

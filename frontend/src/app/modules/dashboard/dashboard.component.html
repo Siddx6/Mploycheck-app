@@ -1,0 +1,20 @@
+<div class="dashboard">
+  <div class="dashboard__header">
+    <div>
+      <h1>Dashboard</h1>
+      <p>Welcome back, <strong>{{ currentUser?.name }}</strong> · {{ currentUser?.role }}</p>
+    </div>
+    <div class="header-badge" [class.admin]="isAdmin">
+      <mat-icon>{{ isAdmin ? 'admin_panel_settings' : 'person' }}</mat-icon>
+      {{ isAdmin ? 'Admin View' : 'General User View' }}
+    </div>
+  </div>
+
+  <div class="dashboard__body">
+    <!-- Profile Card -->
+    <app-profile-card [user]="currentUser"></app-profile-card>
+
+    <!-- Records Table -->
+    <app-records-table [isAdmin]="isAdmin"></app-records-table>
+  </div>
+</div>

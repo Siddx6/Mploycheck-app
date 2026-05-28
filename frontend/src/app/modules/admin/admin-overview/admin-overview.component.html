@@ -1,0 +1,69 @@
+<div class="overview">
+  <div class="overview__header">
+    <h1>Overview</h1>
+    <p>Welcome back — here's what's happening today.</p>
+  </div>
+
+  <div *ngIf="loading" class="overview__loading">
+    <mat-icon class="spin">autorenew</mat-icon>
+    <span>Loading data...</span>
+  </div>
+
+  <ng-container *ngIf="!loading">
+    <!-- Stat Cards -->
+    <div class="stat-grid">
+      <div class="stat-card" *ngFor="let card of statCards" [ngClass]="card.color">
+        <div class="stat-card__icon">
+          <mat-icon>{{ card.icon }}</mat-icon>
+        </div>
+        <div class="stat-card__info">
+          <span class="stat-card__value">{{ card.value }}</span>
+          <span class="stat-card__label">{{ card.label }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Breakdown -->
+    <div class="section">
+      <h2 class="section__title">Record Status Breakdown</h2>
+      <div class="status-grid">
+        <div class="status-chip pending">
+          <span class="dot"></span>Pending <strong>{{ pendingCount }}</strong>
+        </div>
+        <div class="status-chip in-progress">
+          <span class="dot"></span>In Progress <strong>{{ inProgressCount }}</strong>
+        </div>
+        <div class="status-chip completed">
+          <span class="dot"></span>Completed <strong>{{ completedCount }}</strong>
+        </div>
+        <div class="status-chip failed">
+          <span class="dot"></span>Failed <strong>{{ failedCount }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Records -->
+    <div class="section">
+      <h2 class="section__title">Recent Records</h2>
+      <div class="records-table">
+        <div class="records-table__header">
+          <span>Candidate</span>
+          <span>Check Type</span>
+          <span>Priority</span>
+          <span>Status</span>
+          <span>Date</span>
+        </div>
+        <div class="records-table__row" *ngFor="let r of recentRecords">
+          <span class="candidate-name">{{ r.candidateName }}</span>
+          <span class="check-type">{{ r.checkType }}</span>
+          <span class="priority-badge" [ngClass]="getPriorityClass(r.priority)">{{ r.priority }}</span>
+          <span class="status-badge" [ngClass]="getStatusClass(r.status)">{{ r.status }}</span>
+          <span class="date">{{ r.createdAt | date:'dd MMM y' }}</span>
+        </div>
+        <div *ngIf="recentRecords.length === 0" class="records-table__empty">
+          No records found.
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

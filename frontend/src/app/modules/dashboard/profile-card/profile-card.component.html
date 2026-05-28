@@ -1,0 +1,46 @@
+<div class="profile-card card" *ngIf="user">
+  <div class="profile-card__header">
+    <div class="avatar">{{ getInitials(user.name) }}</div>
+    <div class="info">
+      <h3>{{ user.name }}</h3>
+      <span class="role-tag" [class.admin]="user.role === 'Admin'">
+        <mat-icon>{{ user.role === 'Admin' ? 'admin_panel_settings' : 'person' }}</mat-icon>
+        {{ user.role }}
+      </span>
+    </div>
+    <div class="status-dot active">
+      <span></span> Active
+    </div>
+  </div>
+
+  <div class="profile-card__details">
+    <div class="detail">
+      <mat-icon>badge</mat-icon>
+      <div>
+        <label>User ID</label>
+        <span>{{ user.userId }}</span>
+      </div>
+    </div>
+    <div class="detail">
+      <mat-icon>email</mat-icon>
+      <div>
+        <label>Email</label>
+        <span>{{ user.email }}</span>
+      </div>
+    </div>
+    <div class="detail">
+      <mat-icon>business</mat-icon>
+      <div>
+        <label>Department</label>
+        <span>{{ user.department }}</span>
+      </div>
+    </div>
+    <div class="detail">
+      <mat-icon>phone</mat-icon>
+      <div>
+        <label>Phone</label>
+        <span>{{ user.phone || 'Not provided' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

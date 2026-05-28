@@ -1,0 +1,41 @@
+@import '../../../styles/variables';
+
+.dashboard {
+  padding: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 28px;
+
+    h1 { font-size: 28px; font-weight: 700; color: $text-primary; }
+    p  { color: $text-secondary; margin-top: 4px; font-size: 14px; }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+.header-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba($info, 0.1);
+  color: darken($info, 10%);
+  font-size: 13px;
+  font-weight: 600;
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+  &.admin {
+    background: rgba($primary, 0.1);
+    color: $primary-dark;
+  }
+}

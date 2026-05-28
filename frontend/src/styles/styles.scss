@@ -1,0 +1,89 @@
+@use '@angular/material' as mat;
+@import 'styles/variables';
+
+// Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+// Angular Material theme
+@include mat.core();
+$primary-palette: mat.define-palette(mat.$deep-orange-palette, 600);
+$accent-palette:  mat.define-palette(mat.$indigo-palette, 900);
+$warn-palette:    mat.define-palette(mat.$red-palette);
+
+$theme: mat.define-light-theme((
+  color: (
+    primary: $primary-palette,
+    accent:  $accent-palette,
+    warn:    $warn-palette,
+  ),
+  typography: mat.define-typography-config($font-family: $font-family),
+));
+
+@include mat.all-component-themes($theme);
+
+// ─── Global Reset ────────────────────────────────────────────────
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: $font-family;
+  font-size: $font-size-base;
+  background-color: $bg;
+  color: $text-primary;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+
+// ─── Status Badge Utility ────────────────────────────────────────
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: $font-size-sm;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.completed   { background: rgba(46,204,113,0.15); color: darken($success, 10%); }
+  &.in-progress { background: rgba(52,152,219,0.15); color: darken($info, 10%); }
+  &.pending     { background: rgba(243,156,18,0.15); color: darken($warning, 10%); }
+  &.failed      { background: rgba(231,76,60,0.15);  color: darken($danger, 10%); }
+  &.on-hold     { background: rgba(155,89,182,0.15); color: darken($on-hold, 10%); }
+}
+
+.priority-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  &.low      { background: rgba(46,204,113,0.1);  color: $success; }
+  &.medium   { background: rgba(243,156,18,0.1);  color: $warning; }
+  &.high     { background: rgba(231,76,60,0.1);   color: $danger; }
+  &.critical { background: rgba(231,76,60,0.2);   color: darken($danger, 10%); border: 1px solid $danger; }
+}
+
+// ─── Card ─────────────────────────────────────────────────────
+.card {
+  background: $surface;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-sm;
+  border: 1px solid $border;
+  padding: 24px;
+}
+
+// ─── Scrollbar ───────────────────────────────────────────────
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: $bg; }
+::-webkit-scrollbar-thumb { background: $border; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: $text-muted; }

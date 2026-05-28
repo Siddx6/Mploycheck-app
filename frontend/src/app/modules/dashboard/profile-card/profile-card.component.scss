@@ -1,0 +1,107 @@
+@import '../../../../styles/variables';
+
+.profile-card {
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $border;
+  }
+
+  &__details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+}
+
+.avatar {
+  width: 60px; height: 60px;
+  background: linear-gradient(135deg, $primary, $primary-dark);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba($primary, 0.35);
+}
+
+.info {
+  flex: 1;
+  h3 { font-size: 20px; font-weight: 700; color: $text-primary; }
+}
+
+.role-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba($info, 0.1);
+  color: darken($info, 10%);
+  margin-top: 4px;
+  mat-icon { font-size: 14px; width: 14px; height: 14px; }
+
+  &.admin {
+    background: rgba($primary, 0.1);
+    color: $primary-dark;
+  }
+}
+
+.status-dot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: $success;
+
+  span {
+    width: 8px; height: 8px;
+    background: $success;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.detail {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  background: $bg;
+  border-radius: $radius-md;
+
+  mat-icon { color: $primary; margin-top: 2px; font-size: 18px; width: 18px; }
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-size: 11px;
+    color: $text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+  }
+
+  span {
+    font-size: 14px;
+    color: $text-primary;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+}
