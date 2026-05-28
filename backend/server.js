@@ -17,10 +17,11 @@ connectDB();
 // ─── Middleware ────────────────────────────────────────────────
 app.use(cors({
   origin: [
-    'http://localhost:4200',
-    'http://localhost:4201',
-    'https://mploychek-app-seven.vercel.app',
-  ],
+  'http://localhost:4200',
+  'http://localhost:4201',
+  'https://mploychek-app-seven.vercel.app',
+  'https://mploycheck-7cd270oif-siddx6s-projects.vercel.app',
+],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
