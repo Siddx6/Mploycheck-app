@@ -6,7 +6,7 @@
 ### 🔗 Live Demo
 | | URL |
 |---|---|
-| **Frontend** | https://mploychek-app-seven.vercel.app |
+| **Frontend** | https://mploycheck-o8lvkz7k6-siddx6s-projects.vercel.app |
 | **Backend API** | https://mploycheck-app.onrender.com/api/health |
 | **GitHub** | https://github.com/Siddx6/Mploycheck-app |
 
